@@ -25,18 +25,20 @@ require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
-  {
-    'github/copilot.vim',
-    lazy = false,
-    -- opts = require "configs.lint",
-  },
+  --{
+  --  'github/copilot.vim',
+  --  lazy = false,
+  --  -- opts = require "configs.lint",
+  --},
 
   'tpope/vim-surround',
+  'giuxtaposition/blink-cmp-copilot',
 
   { import = 'plugins.vim-tmux-navigator' },
   { import = 'plugins.lazygit' },
   { import = 'plugins.oil' },
   { import = 'plugins.oil-git-status' },
+  { import = 'plugins.copilot' },
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -348,13 +350,26 @@ require('lazy').setup({
       },
 
       -- (Default) Only show the documentation popup when manually triggered
-      completion = { documentation = { auto_show = false } },
+      completion = {
+        documentation = { auto_show = false },
+        ghost_text = { enabled = true },
+      },
 
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
+        providers = {
+          copilot = {
+            name = "copilot",
+            module = "blink-cmp-copilot",
+            score_offset = 100,
+            async = true,
+          },
+        },
       },
+
+
 
       -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
       -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
