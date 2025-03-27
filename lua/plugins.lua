@@ -24,13 +24,6 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
-
-  --{
-  --  'github/copilot.vim',
-  --  lazy = false,
-  --  -- opts = require "configs.lint",
-  --},
-
   'tpope/vim-surround',
   'giuxtaposition/blink-cmp-copilot',
 
@@ -39,40 +32,10 @@ require('lazy').setup({
   { import = 'plugins.oil' },
   { import = 'plugins.oil-git-status' },
   { import = 'plugins.copilot' },
+  { import = 'plugins.blink-cmp' },
+  { import = 'plugins.gitsigns' },
+  { import = 'plugins.which-key' },
 
-  -- NOTE: Plugins can also be added by using a table,
-  -- with the first argument being the link and the following
-  -- keys can be used to configure plugin behavior/loading/etc.
-  --
-  -- Use `opts = {}` to automatically pass options to a plugin's `setup()` function, forcing the plugin to be loaded.
-  --
-  -- Alternatively, use `config = function() ... end` for full control over the configuration.
-  -- If you prefer to call `setup` explicitly, use:
-  --    {
-  --        'lewis6991/gitsigns.nvim',
-  --        config = function()
-  --            require('gitsigns').setup({
-  --                -- Your gitsigns configuration here
-  --            })
-  --        end,
-  --    }
-  --
-  -- Here is a more advanced example where we pass configuration
-  -- options to `gitsigns.nvim`.
-  --
-  -- See `:help gitsigns` to understand what the configuration keys do
-  { -- Adds git related signs to the gutter, as well as utilities for managing changes
-    'lewis6991/gitsigns.nvim',
-    opts = {
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
-    },
-  },
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
@@ -88,62 +51,6 @@ require('lazy').setup({
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
-  { -- Useful plugin to show you pending keybinds.
-    'folke/which-key.nvim',
-    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-    opts = {
-      -- delay between pressing a key and opening which-key (milliseconds)
-      -- this setting is independent of vim.opt.timeoutlen
-      delay = 0,
-      icons = {
-        -- set icon mappings to true if you have a Nerd Font
-        mappings = vim.g.have_nerd_font,
-        -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
-        -- default which-key.nvim defined Nerd Font icons, otherwise define a string table
-        keys = vim.g.have_nerd_font and {} or {
-          Up = '<Up> ',
-          Down = '<Down> ',
-          Left = '<Left> ',
-          Right = '<Right> ',
-          C = '<C-…> ',
-          M = '<M-…> ',
-          D = '<D-…> ',
-          S = '<S-…> ',
-          CR = '<CR> ',
-          Esc = '<Esc> ',
-          ScrollWheelDown = '<ScrollWheelDown> ',
-          ScrollWheelUp = '<ScrollWheelUp> ',
-          NL = '<NL> ',
-          BS = '<BS> ',
-          Space = '<Space> ',
-          Tab = '<Tab> ',
-          F1 = '<F1>',
-          F2 = '<F2>',
-          F3 = '<F3>',
-          F4 = '<F4>',
-          F5 = '<F5>',
-          F6 = '<F6>',
-          F7 = '<F7>',
-          F8 = '<F8>',
-          F9 = '<F9>',
-          F10 = '<F10>',
-          F11 = '<F11>',
-          F12 = '<F12>',
-        },
-      },
-
-      -- Document existing key chains
-      spec = {
-        { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
-        { '<leader>d', group = '[D]ocument' },
-        { '<leader>r', group = '[R]ename' },
-        { '<leader>s', group = '[S]earch' },
-        { '<leader>w', group = '[W]orkspace' },
-        { '<leader>t', group = '[T]oggle' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
-      },
-    },
-  },
 
   -- NOTE: Plugins can specify dependencies.
   --
@@ -312,73 +219,6 @@ require('lazy').setup({
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
       },
     },
-  },
-
-  {
-    'saghen/blink.cmp',
-    -- optional: provides snippets for the snippet source
-    dependencies = { 'rafamadriz/friendly-snippets' },
-
-    -- use a release tag to download pre-built binaries
-    version = '1.*',
-    -- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-    -- build = 'cargo build --release',
-    -- If you use nix, you can build from source using latest nightly rust with:
-    -- build = 'nix run .#build-plugin',
-
-    ---@module 'blink.cmp'
-    ---@type blink.cmp.Config
-    opts = {
-      -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
-      -- 'super-tab' for mappings similar to vscode (tab to accept)
-      -- 'enter' for enter to accept
-      -- 'none' for no mappings
-      --
-      -- All presets have the following mappings:
-      -- C-space: Open menu or open docs if already open
-      -- C-n/C-p or Up/Down: Select next/previous item
-      -- C-e: Hide menu
-      -- C-k: Toggle signature help (if signature.enabled = true)
-      --
-      -- See :h blink-cmp-config-keymap for defining your own keymap
-      keymap = { preset = 'default' },
-
-      appearance = {
-        -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-        -- Adjusts spacing to ensure icons are aligned
-        nerd_font_variant = 'mono',
-      },
-
-      -- (Default) Only show the documentation popup when manually triggered
-      completion = {
-        documentation = { auto_show = false },
-        ghost_text = { enabled = true },
-      },
-
-      -- Default list of enabled providers defined so that you can extend it
-      -- elsewhere in your config, without redefining it, due to `opts_extend`
-      sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
-        providers = {
-          copilot = {
-            name = "copilot",
-            module = "blink-cmp-copilot",
-            score_offset = 100,
-            async = true,
-          },
-        },
-      },
-
-
-
-      -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
-      -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
-      -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
-      --
-      -- See the fuzzy documentation for more information
-      fuzzy = { implementation = 'prefer_rust_with_warning' },
-    },
-    opts_extend = { 'sources.default' },
   },
 
   { -- You can easily change to a different colorscheme.
