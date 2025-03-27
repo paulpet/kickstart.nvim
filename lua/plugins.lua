@@ -31,83 +31,12 @@ require('lazy').setup({
     -- opts = require "configs.lint",
   },
 
-  --  {
-  --    'christoomey/vim-tmux-navigator',
-  --    lazy = false,
-  --    cmd = {
-  --      'TmuxNavigateLeft',
-  --      'TmuxNavigateDown',
-  --      'TmuxNavigateUp',
-  --      'TmuxNavigateRight',
-  --      'TmuxNavigatePrevious',
-  --      'TmuxNavigatorProcessList',
-  --    },
-  --    keys = {
-  --      { '<c-h>', '<cmd><C-U>TmuxNavigateLeft<cr>' },
-  --      { '<c-j>', '<cmd><C-U>TmuxNavigateDown<cr>' },
-  --      { '<c-k>', '<cmd><C-U>TmuxNavigateUp<cr>' },
-  --      { '<c-l>', '<cmd><C-U>TmuxNavigateRight<cr>' },
-  --      { '<c-\\>', '<cmd><C-U>TmuxNavigatePrevious<cr>' },
-  --    },
-  --  },
+  'tpope/vim-surround',
+
   { import = 'plugins.vim-tmux-navigator' },
   { import = 'plugins.lazygit' },
-
-  {
-    'stevearc/oil.nvim',
-    ---@module 'oil'
-    ---@type oil.SetupOpts
-    opts = {},
-    -- Optional dependencies
-    dependencies = { { 'echasnovski/mini.icons', opts = {} } },
-    -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
-    -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
-    lazy = false,
-    config = function()
-      require('oil').setup()
-      vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
-    end,
-  },
-
-  {
-    'refractalize/oil-git-status.nvim',
-
-    dependencies = {
-      'stevearc/oil.nvim',
-    },
-
-    config = function()
-      require('oil-git-status').setup {
-        show_ignored = true, -- show files that match gitignore with !!
-        symbols = { -- customize the symbols that appear in the git status columns
-          index = {
-            ['!'] = '!',
-            ['?'] = '?',
-            ['A'] = 'A',
-            ['C'] = 'C',
-            ['D'] = 'D',
-            ['M'] = 'M',
-            ['R'] = 'R',
-            ['T'] = 'T',
-            ['U'] = 'U',
-            [' '] = ' ',
-          },
-          working_tree = {
-            ['!'] = '!',
-            ['?'] = '?',
-            ['A'] = 'A',
-            ['C'] = 'C',
-            ['D'] = 'D',
-            ['M'] = 'M',
-            ['R'] = 'R',
-            ['T'] = 'T',
-            ['U'] = 'U',
-            [' '] = ' ',
-          },
-        },
-      }
-    end,
-  },
+  { import = 'plugins.oil' },
+  { import = 'plugins.oil-git-status' },
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
